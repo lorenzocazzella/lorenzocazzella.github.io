@@ -1,0 +1,131 @@
+/*******************************************************************************
+ * Site-only overrides, loaded last by the local assets/css/main.scss.
+ ******************************************************************************/
+
+@use "variables" as v;
+@use "sass:color";
+
+.post-title,
+.desc,
+.post-description {
+  color: var(--global-theme-color);
+}
+
+// The h1 on the about page is the person's name (wraps the first name in
+// .font-weight-bold); give it a darker shade than generic page titles, nudged
+// toward the theme's blue hue rather than the raw dark navy.
+// !important: forces this past whatever is currently winning the cascade.
+$name-color: color.adjust(color.mix(v.$blue-color, #29336f, 25%), $lightness: -8%);
+
+.post-title:has(.font-weight-bold),
+.post-title:has(.font-weight-bold) .font-weight-bold,
+.navbar-brand.title,
+.navbar-brand.title .font-weight-bold {
+  color: $name-color !important;
+}
+
+.post-title:has(.font-weight-bold) {
+  font-size: 2rem;
+}
+
+.desc {
+  color: color.adjust($name-color, $lightness: 15%) !important;
+}
+
+.post-title .font-weight-bold,
+.navbar-brand.title .font-weight-bold {
+  font-weight: normal !important;
+}
+
+.research-list .title {
+  color: var(--global-theme-color);
+}
+
+.publications:not(.research-list) .title {
+  color: $name-color;
+}
+
+// The "Publications" page title is an h1.post-title with no .font-weight-bold
+// span (unlike the about-page name heading), so this scopes to it specifically.
+.post-title:not(:has(.font-weight-bold)) {
+  font-size: 1.9rem;
+}
+
+h2#research {
+  color: $name-color;
+  font-size: 1.6rem;
+  margin-top: 1.5rem;
+}
+
+.bio-block .social {
+  margin-top: 1rem;
+
+  .contact-lines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.05rem;
+  }
+
+  .contact-lines a {
+    font-size: 1.1rem;
+    color: $name-color;
+    text-decoration: none;
+
+    &:hover .label {
+      text-decoration: underline;
+    }
+  }
+}
+
+// footer.sticky-bottom (used when footer_fixed: false) doesn't set text/link
+// color at all in the gem, unlike footer.fixed-bottom.
+footer.sticky-bottom {
+  background-color: var(--global-footer-bg-color);
+  background-image: url("../img/navbar-emwave.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  .container {
+    color: var(--global-footer-text-color);
+  }
+
+  a {
+    color: var(--global-footer-link-color);
+
+    &:hover {
+      color: var(--global-theme-color);
+    }
+  }
+}
+
+// Experimental: EM-wave beat interference (22 rows, amplitude 46, 2% detune),
+// same underlying pattern as before but cropped to a thin strip for the
+// navbar. Relative path (not relative_url): Sass partials aren't
+// Liquid-processed.
+#navbar {
+  background-image: url("../img/navbar-emwave.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.profile.float-right {
+  margin-left: 1.5rem;
+}
+
+.profile.float-left {
+  margin-right: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .profile.float-right,
+  .profile.float-left {
+    margin-top: -4rem;
+  }
+
+  .bio-block {
+    margin-right: calc(30% + 1.5rem);
+  }
+}
